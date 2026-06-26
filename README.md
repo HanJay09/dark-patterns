@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Automated Dark Pattern Detection Tool for Websites
 
 MSc Project — Han Jay Tan | Supervisor: Jinhua Liang | QMUL 2025–26
@@ -55,3 +56,6 @@ is the single biggest scope risk. Starting shortlist (refine after lit review):
 
 TBD (academic project — check QMUL submission requirements before
 choosing a license if open-sourcing later).
+=======
+# dark-patterns
+>>>>>>> b9e24347103e9f0fe3a7ebe8be5a2e40b86fc1db
