@@ -1,8 +1,6 @@
 # Literature Review — Working Notes
 
-Target: finalised taxonomy + lit review by end of Phase 1 (compress into the
-next 3–4 weeks given late start).
-
+Target: finalised taxonomy + lit review by end of Phase 1 
 ## Core sources to read first
 
 1. **Brignull, H. — "Dark Patterns" (darkpatterns.org / deceptive.design)**
