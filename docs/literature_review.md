@@ -1,4 +1,4 @@
-# Literature Review — Working Notes
+# Literature Review
 
 Target: finalised taxonomy + lit review by end of Phase 1 
 ## Core sources to read first
