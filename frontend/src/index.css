@@ -1,0 +1,69 @@
+/* ── Design tokens ──────────────────────────────────────────────────────── */
+:root {
+  --navy-950: #0a0f1e;
+  --navy-900: #0f1629;
+  --navy-800: #1a2340;
+  --navy-700: #243058;
+  --navy-600: #2e3d70;
+  --navy-400: #5b72b8;
+  --navy-200: #a8b6e0;
+  --navy-100: #d4dcf0;
+
+  --white:    #ffffff;
+  --grey-50:  #f8f9fc;
+  --grey-100: #eef0f6;
+  --grey-200: #dde1ed;
+  --grey-400: #9199b8;
+  --grey-600: #5a6280;
+  --grey-800: #2d3352;
+
+  --red-bg:     #fff1f0;
+  --red-border: #fca5a5;
+  --red-text:   #991b1b;
+  --red-dot:    #ef4444;
+
+  --amber-bg:     #fffbeb;
+  --amber-border: #fcd34d;
+  --amber-text:   #92400e;
+  --amber-dot:    #f59e0b;
+
+  --green-bg:     #f0fdf4;
+  --green-border: #86efac;
+  --green-text:   #14532d;
+  --green-dot:    #22c55e;
+
+  --accent:       #4f6ef7;
+  --accent-light: #eef1ff;
+  --accent-border:#c7d0fb;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --sidebar-w: 240px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 3px rgba(10,15,30,.08), 0 1px 2px rgba(10,15,30,.06);
+  --shadow-md: 0 4px 12px rgba(10,15,30,.10), 0 2px 4px rgba(10,15,30,.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--grey-800);
+  background: var(--grey-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; font-family: inherit; }
+input  { font-family: inherit; }
+a      { color: inherit; text-decoration: none; }
+
+/* ── Scrollbar (webkit) ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--grey-200); border-radius: 3px; }
