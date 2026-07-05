@@ -3,6 +3,7 @@
 Target: finalised taxonomy + lit review by end of Phase 1 
 Current findings - Hard coded (modify at src/utils/api.js)
 
+9th July - deadline
 ## Core sources to read first
 
 1. **Brignull, H. — "Dark Patterns" (darkpatterns.org / deceptive.design)**
