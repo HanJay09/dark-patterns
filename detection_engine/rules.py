@@ -3,18 +3,17 @@ detection_engine/rules.py
 
 Rule-based heuristics for detecting all 6 dark pattern categories.
 
-Each rule function receives the ScrapedPage output and returns a list of
-Finding dicts. Rules are deliberately simple and transparent — they act
-as a high-recall baseline that the ML classifier then filters/scores.
-
-Why rules first?
-Per the project's design rationale, rule-based detection gives:
-  1. Explainability — every finding has a traceable trigger
-  2. A precision/recall baseline to compare the ML classifier against
-  3. Fallback coverage for categories where labelled data is thin
+v2 — improved after live URL testing (July 2026):
+  - DP-6: Added cookie banner exclusion filters to reduce false positives
+           on gov.uk, BBC, Netflix, Trainline
+  - DP-1: Tightened misdirection to exclude standard cookie consent
+           close/dismiss buttons — these are legitimate UI, not misdirection
+  - DP-4: Improved confidence scoring — script presence alone is low signal
+  - General: Added minimum text length guards to avoid title-text false positives
 """
 
 from __future__ import annotations
+
 import re
 from dataclasses import dataclass, field
 from typing import Any
@@ -23,34 +22,67 @@ from typing import Any
 @dataclass
 class RuleHit:
     """A single instance of a detected dark pattern."""
-    category_id:  str
-    category:     str
-    severity:     str          # 'high' | 'medium' | 'low'
-    evidence:     str          # the exact text / attribute that triggered the rule
-    location:     str          # human-readable description of where on the page
-    rule:         str          # which rule fired (for transparency / evaluation)
-    confidence:   float = 0.75 # rule-based hits default to 0.75
+    category_id: str
+    category:    str
+    severity:    str          # 'high' | 'medium' | 'low'
+    evidence:    str
+    location:    str
+    rule:        str
+    confidence:  float = 0.75
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
-
-def _find_all_text_matches(pattern: str, text: str, flags=re.IGNORECASE) -> list[str]:
-    return re.findall(pattern, text, flags)
-
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _excerpt(text: str, max_len: int = 120) -> str:
     return text[:max_len].strip() + ('…' if len(text) > max_len else '')
 
 
-# ── DP-1: Misdirection ───────────────────────────────────────────────────────
+# Cookie consent text patterns — used to filter out false positives across rules.
+# These are legitimate UI elements, not dark patterns.
+COOKIE_CONSENT_PATTERNS = [
+    r'we use (?:cookies|essential cookies)',
+    r'cookie (?:settings|preferences|policy|banner|consent|notice)',
+    r'accept (?:all )?cookies',
+    r'necessary (?:cookies )?only',
+    r'manage (?:cookie )?preferences',
+    r'privacy (?:settings|preferences|policy)',
+    r'gdpr',
+    r'our use of cookies',
+    r'cookies on (?:gov\.uk|this site|our site)',
+]
+
+def _is_cookie_context(text: str) -> bool:
+    """Return True if the text is likely from a cookie consent banner."""
+    text_lower = text.lower()
+    return any(re.search(p, text_lower) for p in COOKIE_CONSENT_PATTERNS)
+
+
+def _strip_cookie_sentences(text: str) -> str:
+    """
+    Remove sentences that are clearly about cookie consent from visible text
+    before running urgency/scarcity detection.
+    This prevents cookie banners from triggering false DP-6 hits.
+    """
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    filtered = [s for s in sentences if not _is_cookie_context(s)]
+    return ' '.join(filtered)
+
+
+# ── DP-1: Misdirection ────────────────────────────────────────────────────────
 
 def detect_misdirection(page) -> list[RuleHit]:
     """
-    Signals:
-    - Decline/cancel buttons using visually minimising language
-    - Asymmetric button pairs where one choice is buried
+    Detects asymmetric button pairs where a decline option uses
+    guilt-inducing, minimising, or hidden language.
+
+    v2 fix: exclude standard cookie consent close/dismiss buttons —
+    these are legitimate UI elements, not misdirection. A "Close"
+    button on a cookie banner is expected; a "Close" button that is
+    the ONLY way to decline a subscription is a dark pattern.
+    We now require the button text to appear alongside non-cookie context.
     """
     hits = []
+
     DECLINE_PATTERNS = [
         r"no[\s,]*thanks?",
         r"maybe later",
@@ -58,61 +90,102 @@ def detect_misdirection(page) -> list[RuleHit]:
         r"not (now|interested|today)",
         r"i('ll)? decide later",
         r"remind me later",
-        r"close",
-        r"dismiss",
     ]
-    combined = '|'.join(DECLINE_PATTERNS)
+
+    # Excluded alone — only flag close/dismiss if NOT in a cookie context
+    WEAK_DECLINE_PATTERNS = [
+        r"\bclose\b",
+        r"\bdismiss\b",
+        r"\bskip\b",
+    ]
+
+    combined_strong = '|'.join(DECLINE_PATTERNS)
+    combined_weak   = '|'.join(WEAK_DECLINE_PATTERNS)
 
     for btn in page.buttons:
-        text = btn.get('text', '')
-        if re.search(combined, text, re.IGNORECASE) and len(text) < 60:
+        text = btn.get('text', '').strip()
+        if not text or len(text) > 60:
+            continue
+
+        # Strong decline patterns always flag
+        if re.search(combined_strong, text, re.IGNORECASE):
             hits.append(RuleHit(
                 category_id='DP-1',
                 category='Misdirection',
                 severity='medium',
                 evidence=f'"{text}"',
-                location=f'Button / CTA element on page',
+                location='Button / CTA element',
                 rule='decline_button_language',
             ))
+
+        # Weak patterns (close/dismiss/skip) only flag if surrounding
+        # page context is NOT a cookie consent banner
+        elif re.search(combined_weak, text, re.IGNORECASE):
+            if not _is_cookie_context(page.visible_text[:2000]):
+                hits.append(RuleHit(
+                    category_id='DP-1',
+                    category='Misdirection',
+                    severity='low',
+                    evidence=f'"{text}"',
+                    location='Button / CTA element (possible dismiss misdirection)',
+                    rule='weak_decline_button',
+                    confidence=0.55,
+                ))
 
     return hits
 
 
-# ── DP-2: Hidden Costs ───────────────────────────────────────────────────────
+# ── DP-2: Hidden Costs ────────────────────────────────────────────────────────
 
 def detect_hidden_costs(page) -> list[RuleHit]:
     """
-    Signals:
-    - Subscription or fee language appearing in forms or small print
-    - Text patterns suggesting costs added late in a flow
+    Signals: subscription/fee language in text or form fields.
+    Requires minimum surrounding context length to avoid matching
+    page titles or navigation fragments.
     """
     hits = []
+
     COST_PATTERNS = [
         (r'\+\s*(?:shipping|delivery|handling|service fee|booking fee)',
          'Extra fee added to price', 'high'),
-        (r'auto(?:matically)?[\s-]renew',
+        (r'auto(?:matically)?[\s-]renew(?:s|al)?',
          'Auto-renewal language', 'high'),
-        (r'cancel anytime',
-         '"Cancel anytime" (potential forced continuity indicator)', 'medium'),
-        (r'(?:taxes?|vat|gst)\s+(?:not included|excluded|extra|added)',
+        (r'(?:taxes?|vat|gst)\s+(?:not included|excluded|extra|added at checkout)',
          'Tax excluded from displayed price', 'medium'),
         (r'processing fee',
          'Processing fee mentioned', 'medium'),
+        (r'resort fee|destination fee|facility fee',
+         'Hidden resort/facility fee', 'high'),
+        (r'price (?:shown )?(?:does not|doesn\'t) include',
+         'Price exclusion disclosed late', 'high'),
     ]
 
+    # Only check text that is at least 40 chars to avoid title fragments
+    text_to_check = page.visible_text
+    if len(text_to_check) < 40:
+        return hits
+
     for pattern, desc, severity in COST_PATTERNS:
-        matches = _find_all_text_matches(pattern, page.visible_text)
-        for m in matches[:3]:  # cap at 3 per pattern
+        matches = list(re.finditer(pattern, text_to_check, re.IGNORECASE))
+        for m in matches[:3]:
+            start = max(0, m.start() - 40)
+            end   = min(len(text_to_check), m.end() + 60)
+            context = text_to_check[start:end].strip()
+
+            # Skip if this is clearly cookie consent context
+            if _is_cookie_context(context):
+                continue
+
             hits.append(RuleHit(
                 category_id='DP-2',
                 category='Hidden Costs',
                 severity=severity,
-                evidence=_excerpt(m),
+                evidence=f'"{_excerpt(context)}"',
                 location='Page text',
                 rule='hidden_cost_language',
             ))
 
-    # Check form fields for hidden subscription indicators
+    # Check form fields for subscription indicators
     for form in page.forms:
         for field_info in form.get('fields', []):
             name = field_info.get('name', '').lower()
@@ -121,7 +194,7 @@ def detect_hidden_costs(page) -> list[RuleHit]:
                     category_id='DP-2',
                     category='Hidden Costs',
                     severity='high',
-                    evidence=f'Form field name: "{field_info["name"]}"',
+                    evidence=f'Form field: "{field_info["name"]}"',
                     location=f'Form (action: {form.get("action", "unknown")})',
                     rule='subscription_form_field',
                 ))
@@ -129,15 +202,15 @@ def detect_hidden_costs(page) -> list[RuleHit]:
     return hits
 
 
-# ── DP-3: Confirmshaming ─────────────────────────────────────────────────────
+# ── DP-3: Confirmshaming ──────────────────────────────────────────────────────
 
 def detect_confirmshaming(page) -> list[RuleHit]:
     """
-    Signals:
-    - Opt-out button text uses guilt-inducing or self-deprecating language
-    - Pattern: "No thanks, I don't want [positive thing]"
+    Guilt-inducing opt-out language.
+    Requires full sentence context to avoid matching fragments.
     """
     hits = []
+
     SHAME_PATTERNS = [
         r"no[\s,]+thanks?,?\s+i(?:'m| am| don't| do not).{0,60}",
         r"i(?:'m| am) (?:not |un)?interested in saving",
@@ -152,6 +225,8 @@ def detect_confirmshaming(page) -> list[RuleHit]:
     for pattern in SHAME_PATTERNS:
         matches = re.findall(pattern, all_button_text, re.IGNORECASE)
         for m in matches:
+            if len(m) < 10:
+                continue
             hits.append(RuleHit(
                 category_id='DP-3',
                 category='Confirmshaming',
@@ -162,7 +237,7 @@ def detect_confirmshaming(page) -> list[RuleHit]:
                 confidence=0.85,
             ))
 
-    # Also check visible text for modal/popup dismiss language
+    # Check visible text for modal dismiss language
     MODAL_PATTERNS = [
         r"no[\s,]+thanks?,?\s+i don'?t want.{0,80}",
         r"no[\s,]+i(?:'ll)? pass on.{0,60}",
@@ -170,6 +245,8 @@ def detect_confirmshaming(page) -> list[RuleHit]:
     for pattern in MODAL_PATTERNS:
         matches = re.findall(pattern, page.visible_text, re.IGNORECASE)
         for m in matches[:2]:
+            if len(m) < 10 or _is_cookie_context(m):
+                continue
             hits.append(RuleHit(
                 category_id='DP-3',
                 category='Confirmshaming',
@@ -183,66 +260,69 @@ def detect_confirmshaming(page) -> list[RuleHit]:
     return hits
 
 
-# ── DP-4: Disguised Ads ──────────────────────────────────────────────────────
+# ── DP-4: Disguised Ads ───────────────────────────────────────────────────────
 
 def detect_disguised_ads(page) -> list[RuleHit]:
     """
-    Signals:
-    - Known ad-network script tags or class names in the page HTML
-    - Elements labelled 'sponsored' or 'promoted' styled like organic content
+    Known ad-network script signatures in page HTML.
+
+    v2: Split into two tiers.
+    - Native ad networks (Taboola, Outbrain) are higher confidence
+      as they specifically serve content-style ads.
+    - General ad networks (DoubleClick, AdSense) are lower confidence
+      as they may serve standard display ads that are clearly labelled.
     """
     hits = []
 
-    AD_NETWORKS = [
-        ('doubleclick.net',   'Google DoubleClick ad script'),
-        ('googlesyndication', 'Google AdSense'),
-        ('amazon-adsystem',   'Amazon Advertising'),
-        ('outbrain',          'Outbrain native ads'),
-        ('taboola',           'Taboola native ads'),
-        ('criteo',            'Criteo retargeting ads'),
-        ('adsrvr.org',        'The Trade Desk ads'),
-        ('moatads',           'Moat ad measurement'),
+    NATIVE_AD_NETWORKS = [
+        ('outbrain',        'Outbrain native ads'),
+        ('taboola',         'Taboola native ads'),
+        ('revcontent',      'Revcontent native ads'),
+        ('mgid',            'MGID native ads'),
+    ]
+
+    GENERAL_AD_NETWORKS = [
+        ('doubleclick.net', 'Google DoubleClick ad script'),
+        ('googlesyndication','Google AdSense'),
+        ('amazon-adsystem', 'Amazon Advertising'),
+        ('criteo',          'Criteo retargeting'),
+        ('adsrvr.org',      'The Trade Desk'),
     ]
 
     html_lower = page.html.lower()
-    for domain, label in AD_NETWORKS:
+
+    for domain, label in NATIVE_AD_NETWORKS:
+        if domain in html_lower:
+            hits.append(RuleHit(
+                category_id='DP-4',
+                category='Disguised Ads',
+                severity='high',
+                evidence=f'Native ad network detected: {label}',
+                location='Page <script> / external resources',
+                rule='native_ad_network_script',
+                confidence=0.75,
+            ))
+
+    for domain, label in GENERAL_AD_NETWORKS:
         if domain in html_lower:
             hits.append(RuleHit(
                 category_id='DP-4',
                 category='Disguised Ads',
                 severity='medium',
                 evidence=f'Ad network script detected: {label}',
-                location='Page <script> tags / external resources',
+                location='Page <script> / external resources',
                 rule='ad_network_script',
-                confidence=0.65,  # presence of script ≠ definitely disguised
-            ))
-
-    # 'Sponsored' or 'promoted' labels in visible text
-    SPONSOR_PATTERNS = [r'\bsponsored\b', r'\bpromoted\b', r'\badvertisement\b', r'\bad\b']
-    for pattern in SPONSOR_PATTERNS:
-        if re.search(pattern, page.visible_text, re.IGNORECASE):
-            hits.append(RuleHit(
-                category_id='DP-4',
-                category='Disguised Ads',
-                severity='low',
-                evidence=f'Label "{pattern.strip(chr(92)+"b")}" found in page text',
-                location='Page text / content area',
-                rule='sponsored_label_present',
                 confidence=0.55,
             ))
-            break  # one hit is enough for this signal
 
     return hits
 
 
-# ── DP-5: Forced Continuity ──────────────────────────────────────────────────
+# ── DP-5: Forced Continuity ───────────────────────────────────────────────────
 
 def detect_forced_continuity(page) -> list[RuleHit]:
     """
-    Signals:
-    - Free trial language paired with card/payment form fields
-    - Cancellation difficulty language
-    - Auto-renewal without prominent disclosure
+    Free trials with auto-renewal and difficult cancellation.
     """
     hits = []
 
@@ -258,7 +338,8 @@ def detect_forced_continuity(page) -> list[RuleHit]:
         for p in FREE_TRIAL_PATTERNS
     )
     has_payment_field = any(
-        any(k in f.get('name', '').lower() for k in ['card', 'credit', 'payment', 'billing', 'cvv', 'expir'])
+        any(k in f.get('name', '').lower()
+            for k in ['card', 'credit', 'payment', 'billing', 'cvv', 'expir'])
         for form in page.forms
         for f in form.get('fields', [])
     )
@@ -275,43 +356,59 @@ def detect_forced_continuity(page) -> list[RuleHit]:
         ))
 
     CANCEL_HARD_PATTERNS = [
-        (r'call (?:us )?to cancel',           'Cancellation requires a phone call', 'high'),
+        (r'call (?:us )?to cancel',              'Cancellation requires a phone call', 'high'),
         (r'cancel (?:by|via) (?:mail|post|letter)', 'Cancellation requires physical mail', 'high'),
-        (r'(?:30|60|90)[\s-]day(?:s)? notice',     'Long cancellation notice period required', 'high'),
-        (r'non[\s-]?refundable',                    'Non-refundable charge language', 'medium'),
+        (r'(?:30|60|90)[\s-]day(?:s)? notice',  'Long cancellation notice period', 'high'),
+        (r'non[\s-]?refundable',                 'Non-refundable charge', 'medium'),
+        (r'cancel anytime',                      'Cancel anytime (verify flow depth)', 'low'),
     ]
 
     for pattern, desc, severity in CANCEL_HARD_PATTERNS:
         if re.search(pattern, page.visible_text, re.IGNORECASE):
-            hits.append(RuleHit(
-                category_id='DP-5',
-                category='Forced Continuity',
-                severity=severity,
-                evidence=desc,
-                location='Page text / terms',
-                rule='cancellation_friction',
-            ))
+            if not _is_cookie_context(page.visible_text[:500]):
+                hits.append(RuleHit(
+                    category_id='DP-5',
+                    category='Forced Continuity',
+                    severity=severity,
+                    evidence=desc,
+                    location='Page text / terms',
+                    rule='cancellation_friction',
+                ))
 
     return hits
 
 
-# ── DP-6: Urgency / Scarcity ─────────────────────────────────────────────────
+# ── DP-6: Urgency / Scarcity ──────────────────────────────────────────────────
 
 def detect_urgency_scarcity(page) -> list[RuleHit]:
     """
-    Signals:
-    - Countdown timer language
-    - Low stock claims
-    - Limited-time offer language
+    Artificial time pressure and false scarcity claims.
+
+    v2 fixes:
+    - Strip cookie consent sentences before matching — prevents "necessary only"
+      and cookie banner text from triggering false positives on gov.uk, BBC etc.
+    - Added minimum match length guard (>8 chars of context)
+    - Added page-title exclusion — do not match against the first 200 chars
+      if they appear to be navigation/title text
+    - "only" pattern now requires numeric context to fire
     """
     hits = []
 
+    # Pre-filter: remove cookie consent sentences
+    clean_text = _strip_cookie_sentences(page.visible_text)
+
+    # Also skip the first 150 chars which is often page title/nav
+    clean_text = clean_text[150:] if len(clean_text) > 150 else clean_text
+
+    if len(clean_text) < 20:
+        return hits
+
     URGENCY_PATTERNS = [
+        # Must include a number to reduce false positives on "only"
         (r'only\s+(\d+)\s+left(?:\s+in\s+stock)?',     'Low stock claim',          'high'),
         (r'(\d+)\s+(?:people\s+)?(?:viewing|watching)',  'Social proof urgency',     'medium'),
-        (r'(?:offer\s+)?ends?\s+(?:in|at|on)',           'Offer expiry language',    'high'),
-        (r'(?:deal|sale|discount)\s+ends?\s+(?:soon|today|tonight|midnight)',
-                                                          'Sale ending soon',         'high'),
+        (r'(?:offer|deal|sale|discount)\s+ends?\s+(?:in|at|on|soon|today|tonight|midnight)',
+                                                          'Offer expiry language',    'high'),
         (r'limited[\s-]time\s+(?:offer|deal|only)',       'Limited time offer',       'medium'),
         (r'hurry[!,.]',                                   '"Hurry" urgency language', 'medium'),
         (r'(?:selling|going)\s+fast',                     '"Selling fast" claim',     'medium'),
@@ -319,16 +416,21 @@ def detect_urgency_scarcity(page) -> list[RuleHit]:
                                                           'Recent sales count',       'low'),
         (r'today\s+only',                                 '"Today only" offer',       'high'),
         (r'flash\s+sale',                                 'Flash sale language',      'medium'),
+        (r'(\d+)\s+hours?\s+(?:left|only|remaining)',     'Countdown hours',          'high'),
+        (r'(?:expires?|expiring)\s+(?:soon|today|tonight|in \d+)',
+                                                          'Expiry imminent',          'high'),
     ]
 
     for pattern, desc, severity in URGENCY_PATTERNS:
-        matches = re.findall(pattern, page.visible_text, re.IGNORECASE)
-        if matches:
-            # Grab the surrounding context for the first match
-            m = re.search(pattern, page.visible_text, re.IGNORECASE)
-            start = max(0, m.start() - 40)
-            end   = min(len(page.visible_text), m.end() + 40)
-            context = page.visible_text[start:end].strip()
+        m = re.search(pattern, clean_text, re.IGNORECASE)
+        if m:
+            start   = max(0, m.start() - 40)
+            end     = min(len(clean_text), m.end() + 60)
+            context = clean_text[start:end].strip()
+
+            # Skip very short or cookie-context matches
+            if len(context) < 8 or _is_cookie_context(context):
+                continue
 
             hits.append(RuleHit(
                 category_id='DP-6',
@@ -339,8 +441,10 @@ def detect_urgency_scarcity(page) -> list[RuleHit]:
                 rule='urgency_scarcity_language',
             ))
 
-    # Also check countdown-like elements flagged by the scraper
+    # Countdown-like elements flagged by the scraper
     for el in page.countdown_like_elements[:3]:
+        if _is_cookie_context(el) or len(el) < 8:
+            continue
         hits.append(RuleHit(
             category_id='DP-6',
             category='Urgency / Scarcity',
@@ -372,7 +476,6 @@ def run_all_rules(page) -> list[RuleHit]:
     for rule_fn in ALL_RULES:
         try:
             hits.extend(rule_fn(page))
-        except Exception as e:  # noqa: BLE001
-            # One bad rule must never silently kill the whole engine
+        except Exception as e:
             print(f"[rules] Warning: {rule_fn.__name__} failed: {e}")
     return hits
