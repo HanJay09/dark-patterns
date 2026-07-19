@@ -1,0 +1,330 @@
+{
+  "run_at": "2026-07-19T21:40:14.513890+00:00",
+  "total": 10,
+  "results": [
+    {
+      "url": "https://www.amazon.co.uk",
+      "analysed_at": "2026-07-19T21:39:23.111172+00:00",
+      "total_found": 2,
+      "overall_risk": "medium",
+      "confidence": 0.73,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"Amazon.co.uk: Low Prices in Electronics, Books, Sports Equipment & more Select your cookie preferences We use cookies an…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Amazon Advertising",
+              "location": "Page <script> tags / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ],
+      "notes": "Major e-commerce — likely DP-6, DP-4",
+      "elapsed": 8.28
+    },
+    {
+      "url": "https://www.booking.com",
+      "analysed_at": "2026-07-19T21:39:31.944087+00:00",
+      "total_found": 1,
+      "overall_risk": "low",
+      "confidence": 0.75,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"5 8.5 Very Good Very Good 4,306 reviews Limited-time Deal 2 nights $440 $308 Original price $440.\"",
+              "location": "Page text / product listing"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        }
+      ],
+      "notes": "Travel booking — likely DP-6, DP-5",
+      "elapsed": 6.81
+    },
+    {
+      "url": "https://www.trainline.com",
+      "analysed_at": "2026-07-19T21:39:37.797471+00:00",
+      "total_found": 3,
+      "overall_risk": "medium",
+      "confidence": 0.72,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "\"Necessary only\"",
+              "location": "Countdown / timer element"
+            },
+            {
+              "evidence": "\"Trainline : Search, Compare & Buy Cheap Train Tickets Trainline : Search, Compare & Buy Cheap Train Tickets Skip to cont…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-1",
+          "category": "Misdirection",
+          "severity": "medium",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "\"CloseClose\"",
+              "location": "Button / CTA element on page"
+            },
+            {
+              "evidence": "\"ShowEye Closed\"",
+              "location": "Button / CTA element on page"
+            }
+          ],
+          "explanation": "Visual or structural tricks steer users toward one option while suppressing alternatives. Common techniques include making the decline option tiny, low-contrast, or hard to find. Research (Mathur et al., 2019) found misdirection on ~12% of surveyed shopping sites."
+        },
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> tags / external resources"
+            },
+            {
+              "evidence": "Label \"ad\" found in page text",
+              "location": "Page text / content area"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ],
+      "notes": "Travel ticketing — likely DP-2, DP-6",
+      "elapsed": 3.84
+    },
+    {
+      "url": "https://www.netflix.com",
+      "analysed_at": "2026-07-19T21:39:45.012067+00:00",
+      "total_found": 1,
+      "overall_risk": "medium",
+      "confidence": 0.8,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"Netflix United Kingdom – Watch series online, watch films online Netflix Sign In Unlimited films, series and more Starts…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        }
+      ],
+      "notes": "Subscription — likely DP-5, DP-2",
+      "elapsed": 5.2
+    },
+    {
+      "url": "https://www.linkedin.com/premium",
+      "analysed_at": "2026-07-19T21:39:50.837046+00:00",
+      "total_found": 1,
+      "overall_risk": "low",
+      "confidence": 0.75,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-1",
+          "category": "Misdirection",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"dismiss\"",
+              "location": "Button / CTA element on page"
+            }
+          ],
+          "explanation": "Visual or structural tricks steer users toward one option while suppressing alternatives. Common techniques include making the decline option tiny, low-contrast, or hard to find. Research (Mathur et al., 2019) found misdirection on ~12% of surveyed shopping sites."
+        }
+      ],
+      "notes": "Premium upsell — likely DP-5, DP-3",
+      "elapsed": 3.81
+    },
+    {
+      "url": "https://www.dailymail.co.uk",
+      "analysed_at": "2026-07-19T21:39:54.605295+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "News site — likely DP-4, DP-6",
+      "elapsed": 1.77
+    },
+    {
+      "url": "https://www.mirror.co.uk",
+      "analysed_at": "2026-07-19T21:40:01.461170+00:00",
+      "total_found": 3,
+      "overall_risk": "medium",
+      "confidence": 0.68,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"The Mirror: The Heart of Britain We value your privacy At Reach and across our entities we and our partners store and/or…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 3,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> tags / external resources"
+            },
+            {
+              "evidence": "Ad network script detected: Taboola native ads",
+              "location": "Page <script> tags / external resources"
+            },
+            {
+              "evidence": "Label \"ad\" found in page text",
+              "location": "Page text / content area"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        },
+        {
+          "id": "DP-1",
+          "category": "Misdirection",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"CLOSE\"",
+              "location": "Button / CTA element on page"
+            }
+          ],
+          "explanation": "Visual or structural tricks steer users toward one option while suppressing alternatives. Common techniques include making the decline option tiny, low-contrast, or hard to find. Research (Mathur et al., 2019) found misdirection on ~12% of surveyed shopping sites."
+        }
+      ],
+      "notes": "News site — likely DP-4",
+      "elapsed": 4.84
+    },
+    {
+      "url": "https://www.bbc.co.uk",
+      "analysed_at": "2026-07-19T21:40:06.878974+00:00",
+      "total_found": 2,
+      "overall_risk": "medium",
+      "confidence": 0.77,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "\"Why did England’s 2006 World Cup dream end in agony? Attribution iPlayer Watchlist Ad\"",
+              "location": "Page text / product listing"
+            },
+            {
+              "evidence": "\"BBC - Home BBC Homepage Skip to content Accessibility Help Your account Notifications Home News Sport Weather iPlayer So…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-1",
+          "category": "Misdirection",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"close panel\"",
+              "location": "Button / CTA element on page"
+            }
+          ],
+          "explanation": "Visual or structural tricks steer users toward one option while suppressing alternatives. Common techniques include making the decline option tiny, low-contrast, or hard to find. Research (Mathur et al., 2019) found misdirection on ~12% of surveyed shopping sites."
+        }
+      ],
+      "notes": "Public broadcaster — expect few findings",
+      "elapsed": 3.41
+    },
+    {
+      "url": "https://www.gov.uk",
+      "analysed_at": "2026-07-19T21:40:10.796348+00:00",
+      "total_found": 1,
+      "overall_risk": "medium",
+      "confidence": 0.8,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"Welcome to GOV.UK Cookies on GOV.UK We use some essential cookies to make this website work. We’d like to set additional…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        }
+      ],
+      "notes": "UK Government — expect no findings",
+      "elapsed": 1.91
+    },
+    {
+      "url": "https://example.com",
+      "analysed_at": "2026-07-19T21:40:14.510952+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "Minimal test page — expect no findings",
+      "elapsed": 1.7
+    }
+  ]
+}
