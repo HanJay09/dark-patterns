@@ -1,9 +1,9 @@
 # Literature Review
 
 Target: finalised taxonomy + lit review by end of Phase 1 
-Current findings - Hard coded (modify at src/utils/api.js)
+Current findings - Hard coded (modify at src/utils/api.js) s
 
-npm start - to start
+npm start - to start 
 
 9th July - deadline draft dissertation
 ## Core sources to read first
