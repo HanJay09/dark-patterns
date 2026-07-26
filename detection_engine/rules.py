@@ -86,13 +86,35 @@ def detect_misdirection(page) -> list[RuleHit]:
     DECLINE_PATTERNS = [
         r"no[\s,]*thanks?",
         r"maybe later",
-        r"skip(?: this)?",
+        r"skip(?: this| offer| step| for now)$",   # tightened: exclude "skip to content"
         r"not (now|interested|today)",
         r"i('ll)? decide later",
         r"remind me later",
     ]
 
-    # Excluded alone — only flag close/dismiss if NOT in a cookie context
+    # Navigation UI patterns — buttons with these labels are standard
+    # navigation/UI elements, not dark patterns, regardless of context
+    NAV_BUTTON_PATTERNS = [
+        r'^close menu$',
+        r'^open menu$',
+        r'^main menu$',
+        r'^close panel$',
+        r'^close$',
+        r'^menu$',
+        r'^skip to (?:content|main|navigation)',
+        r'^back$',
+        r'^go back$',
+        r'^hide$',
+        r'^show$',
+        r'^dismiss$',        # notification dismiss — not a dark pattern alone
+        r'^got it$',         # standard acknowledgement
+        r'^ok$',
+        r'^okay$',
+        r'^i understand$',
+        r'^continue$',
+    ]
+
+    # Excluded alone — only flag close/dismiss if NOT in a cookie or nav context
     WEAK_DECLINE_PATTERNS = [
         r"\bclose\b",
         r"\bdismiss\b",
@@ -118,10 +140,15 @@ def detect_misdirection(page) -> list[RuleHit]:
                 rule='decline_button_language',
             ))
 
-        # Weak patterns (close/dismiss/skip) only flag if surrounding
-        # page context is NOT a cookie consent banner
+        # Weak patterns (close/dismiss/skip) only flag if:
+        # 1. NOT a cookie consent banner context
+        # 2. NOT a standard navigation UI button
         elif re.search(combined_weak, text, re.IGNORECASE):
-            if not _is_cookie_context(page.visible_text[:2000]):
+            is_nav_button = any(
+                re.match(p, text, re.IGNORECASE)
+                for p in NAV_BUTTON_PATTERNS
+            )
+            if not is_nav_button and not _is_cookie_context(page.visible_text[:2000]):
                 hits.append(RuleHit(
                     category_id='DP-1',
                     category='Misdirection',
