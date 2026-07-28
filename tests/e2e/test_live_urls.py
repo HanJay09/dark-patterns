@@ -43,22 +43,30 @@ from detection_engine.engine import analyse
 # Add your own URLs here — aim for at least 10 before the evaluation phase
 TEST_URLS = [
     # E-commerce — high likelihood of dark patterns
-    ("https://www.amazon.co.uk",          "Major e-commerce — likely DP-6, DP-4"),
-    ("https://www.booking.com",           "Travel booking — likely DP-6, DP-5"),
-    ("https://www.trainline.com",         "Travel ticketing — likely DP-2, DP-6"),
+    ("https://www.amazon.co.uk",              "Major e-commerce — likely DP-6, DP-4"),
+    ("https://www.booking.com",               "Travel booking — likely DP-6, DP-5"),
+    ("https://www.trainline.com",             "Travel ticketing — likely DP-2, DP-6"),
+    ("https://www.asos.com",                  "Fashion e-commerce — likely DP-6 urgency"),
+    ("https://www.ticketmaster.co.uk",        "Ticketing — known urgency/scarcity patterns"),
 
-    # Subscription services — likely forced continuity / hidden costs
-    ("https://www.netflix.com",           "Subscription — likely DP-5, DP-2"),
-    ("https://www.linkedin.com/premium",  "Premium upsell — likely DP-5, DP-3"),
+    # Subscription / upsell — likely forced continuity
+    ("https://www.netflix.com",               "Subscription — likely DP-5, DP-2"),
+    ("https://www.linkedin.com/premium",      "Premium upsell — likely DP-5, DP-3"),
+    ("https://www.ancestry.co.uk",            "Subscription genealogy — likely DP-5, free trial"),
 
     # News / media — likely disguised ads
-    ("https://www.dailymail.co.uk",       "News site — likely DP-4, DP-6"),
-    ("https://www.mirror.co.uk",          "News site — likely DP-4"),
+    ("https://www.dailymail.co.uk",           "News site — likely DP-4, DP-6"),
+    ("https://www.mirror.co.uk",              "News site — likely DP-4 Taboola"),
+    ("https://www.thesun.co.uk",              "Tabloid news — likely DP-4, DP-6"),
 
-    # Should be clean — use as negative/baseline controls
-    ("https://www.bbc.co.uk",             "Public broadcaster — expect few findings"),
-    ("https://www.gov.uk",                "UK Government — expect no findings"),
-    ("https://example.com",               "Minimal test page — expect no findings"),
+    # Finance / insurance — hidden costs, urgency
+    ("https://www.confused.com",              "Price comparison — likely DP-6 urgency"),
+    ("https://www.moneysupermarket.com",      "Price comparison — likely DP-6, DP-2"),
+
+    # Clean controls — should return zero or near-zero findings
+    ("https://www.bbc.co.uk",                 "Public broadcaster — expect 0 findings"),
+    ("https://www.gov.uk",                    "UK Government — expect 0 findings"),
+    ("https://example.com",                   "Minimal test page — expect 0 findings"),
 ]
 
 # ── Output paths ──────────────────────────────────────────────────────────────
@@ -117,7 +125,9 @@ async def run_single(url: str, notes: str) -> dict:
     t0 = time.monotonic()
 
     try:
-        page = await scrape(url, timeout_ms=30000)
+        # Use longer timeout for news/media sites that load ad scripts late
+        timeout = 35000 if any(d in url for d in ['dailymail', 'mirror', 'thesun', 'telegraph']) else 30000
+        page = await scrape(url, timeout_ms=timeout)
     except Exception as e:
         return {
             "url":     url,
