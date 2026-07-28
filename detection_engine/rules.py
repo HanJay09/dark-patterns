@@ -448,6 +448,16 @@ def detect_urgency_scarcity(page) -> list[RuleHit]:
                                                           'Expiry imminent',          'high'),
     ]
 
+    # Additional cookie consent phrases to exclude beyond _is_cookie_context()
+    # These catch edge cases like "Essential only" on cookie banners
+    EXTRA_COOKIE_PHRASES = [
+        r'\bessential(?:s)?\s+only\b',
+        r'\bnecessary\s+only\b',
+        r'\bfunctional\s+only\b',
+        r'\breject\s+all\b',
+        r'\baccept\s+all\b',
+    ]
+
     for pattern, desc, severity in URGENCY_PATTERNS:
         m = re.search(pattern, clean_text, re.IGNORECASE)
         if m:
@@ -457,6 +467,26 @@ def detect_urgency_scarcity(page) -> list[RuleHit]:
 
             # Skip very short or cookie-context matches
             if len(context) < 8 or _is_cookie_context(context):
+                continue
+
+            # Skip extra cookie consent phrases (e.g. "Essential only")
+            if any(re.search(p, m.group(0), re.IGNORECASE) for p in EXTRA_COOKIE_PHRASES):
+                continue
+
+            # Skip if match appears inside a news headline (no price/product context)
+            # Heuristic: genuine urgency patterns appear near prices or product names
+            # Editorial urgency (e.g. "bride left stranded") has no £/$/ or stock words
+            surrounding = clean_text[max(0, m.start()-100):m.end()+100].lower()
+            has_commercial_context = any(
+                indicator in surrounding
+                for indicator in ['£', '$', '€', 'stock', 'order', 'buy', 'cart',
+                                  'basket', 'checkout', 'price', 'deal', 'offer',
+                                  'discount', 'sale', 'save', 'off']
+            )
+            # Only apply commercial context check to patterns that could appear
+            # in editorial text (not numeric patterns which are inherently specific)
+            is_numeric_pattern = bool(re.search(r'\d', pattern))
+            if not is_numeric_pattern and not has_commercial_context:
                 continue
 
             hits.append(RuleHit(

@@ -1,10 +1,10 @@
 {
-  "run_at": "2026-07-26T03:29:33.824057+00:00",
-  "total": 10,
+  "run_at": "2026-07-28T19:06:56.956533+00:00",
+  "total": 16,
   "results": [
     {
       "url": "https://www.amazon.co.uk",
-      "analysed_at": "2026-07-26T03:28:21.465099+00:00",
+      "analysed_at": "2026-07-28T19:03:39.851628+00:00",
       "total_found": 1,
       "overall_risk": "low",
       "confidence": 0.55,
@@ -25,22 +25,40 @@
         }
       ],
       "notes": "Major e-commerce — likely DP-6, DP-4",
-      "elapsed": 12.52
+      "elapsed": 14.97
     },
     {
       "url": "https://www.booking.com",
-      "analysed_at": "2026-07-26T03:28:32.630651+00:00",
-      "total_found": 0,
-      "overall_risk": "none",
-      "confidence": 0.0,
+      "analysed_at": "2026-07-28T19:03:52.655400+00:00",
+      "total_found": 1,
+      "overall_risk": "low",
+      "confidence": 0.55,
       "categories_checked": 6,
-      "findings": [],
+      "findings": [
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> / external resources"
+            },
+            {
+              "evidence": "Ad network script detected: Google AdSense",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ],
       "notes": "Travel booking — likely DP-6, DP-5",
-      "elapsed": 9.16
+      "elapsed": 10.8
     },
     {
       "url": "https://www.trainline.com",
-      "analysed_at": "2026-07-26T03:28:40.902690+00:00",
+      "analysed_at": "2026-07-28T19:04:03.135437+00:00",
       "total_found": 1,
       "overall_risk": "low",
       "confidence": 0.55,
@@ -61,47 +79,80 @@
         }
       ],
       "notes": "Travel ticketing — likely DP-2, DP-6",
-      "elapsed": 6.26
+      "elapsed": 8.47
+    },
+    {
+      "url": "https://www.asos.com",
+      "analysed_at": "2026-07-28T19:04:14.056854+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "Fashion e-commerce — likely DP-6 urgency",
+      "elapsed": 8.91
+    },
+    {
+      "url": "https://www.ticketmaster.co.uk",
+      "analysed_at": "2026-07-28T19:04:26.441766+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "Ticketing — known urgency/scarcity patterns",
+      "elapsed": 10.38
     },
     {
       "url": "https://www.netflix.com",
-      "analysed_at": "2026-07-26T03:28:46.930194+00:00",
+      "analysed_at": "2026-07-28T19:04:36.013783+00:00",
       "total_found": 0,
       "overall_risk": "none",
       "confidence": 0.0,
       "categories_checked": 6,
       "findings": [],
       "notes": "Subscription — likely DP-5, DP-2",
-      "elapsed": 4.02
+      "elapsed": 7.56
     },
     {
       "url": "https://www.linkedin.com/premium",
-      "analysed_at": "2026-07-26T03:28:56.049031+00:00",
+      "analysed_at": "2026-07-28T19:04:45.188108+00:00",
       "total_found": 0,
       "overall_risk": "none",
       "confidence": 0.0,
       "categories_checked": 6,
       "findings": [],
       "notes": "Premium upsell — likely DP-5, DP-3",
-      "elapsed": 7.12
+      "elapsed": 7.17
+    },
+    {
+      "url": "https://www.ancestry.co.uk",
+      "analysed_at": "2026-07-28T19:05:22.952507+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "Subscription genealogy — likely DP-5, free trial",
+      "elapsed": 35.75
     },
     {
       "url": "https://www.dailymail.co.uk",
-      "analysed_at": "2026-07-26T03:29:02.729052+00:00",
+      "analysed_at": "2026-07-28T19:05:30.404169+00:00",
       "total_found": 0,
       "overall_risk": "none",
       "confidence": 0.0,
       "categories_checked": 6,
       "findings": [],
       "notes": "News site — likely DP-4, DP-6",
-      "elapsed": 4.67
+      "elapsed": 5.44
     },
     {
       "url": "https://www.mirror.co.uk",
-      "analysed_at": "2026-07-26T03:29:10.609540+00:00",
-      "total_found": 1,
+      "analysed_at": "2026-07-28T19:05:40.615887+00:00",
+      "total_found": 2,
       "overall_risk": "medium",
-      "confidence": 0.65,
+      "confidence": 0.68,
       "categories_checked": 6,
       "findings": [
         {
@@ -120,43 +171,116 @@
             }
           ],
           "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        },
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"d bride left stranded at altar - 'I had 100 people watching' Michael Sheen chose folk icons over Duran Duran during 198\"",
+              "location": "Page text / product listing"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
         }
       ],
-      "notes": "News site — likely DP-4",
-      "elapsed": 5.89
+      "notes": "News site — likely DP-4 Taboola",
+      "elapsed": 8.2
+    },
+    {
+      "url": "https://www.thesun.co.uk",
+      "analysed_at": "2026-07-28T19:05:47.989237+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "Tabloid news — likely DP-4, DP-6",
+      "elapsed": 5.36
+    },
+    {
+      "url": "https://www.confused.com",
+      "analysed_at": "2026-07-28T19:05:55.934975+00:00",
+      "total_found": 2,
+      "overall_risk": "medium",
+      "confidence": 0.68,
+      "categories_checked": 6,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"Essential only\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ],
+      "notes": "Price comparison — likely DP-6 urgency",
+      "elapsed": 5.92
+    },
+    {
+      "url": "https://www.moneysupermarket.com",
+      "analysed_at": "2026-07-28T19:06:33.144925+00:00",
+      "total_found": 0,
+      "overall_risk": "none",
+      "confidence": 0.0,
+      "categories_checked": 6,
+      "findings": [],
+      "notes": "Price comparison — likely DP-6, DP-2",
+      "elapsed": 35.2
     },
     {
       "url": "https://www.bbc.co.uk",
-      "analysed_at": "2026-07-26T03:29:19.248488+00:00",
+      "analysed_at": "2026-07-28T19:06:41.778932+00:00",
       "total_found": 0,
       "overall_risk": "none",
       "confidence": 0.0,
       "categories_checked": 6,
       "findings": [],
-      "notes": "Public broadcaster — expect few findings",
-      "elapsed": 6.62
+      "notes": "Public broadcaster — expect 0 findings",
+      "elapsed": 6.61
     },
     {
       "url": "https://www.gov.uk",
-      "analysed_at": "2026-07-26T03:29:29.895154+00:00",
+      "analysed_at": "2026-07-28T19:06:49.671530+00:00",
       "total_found": 0,
       "overall_risk": "none",
       "confidence": 0.0,
       "categories_checked": 6,
       "findings": [],
-      "notes": "UK Government — expect no findings",
-      "elapsed": 8.64
+      "notes": "UK Government — expect 0 findings",
+      "elapsed": 5.89
     },
     {
       "url": "https://example.com",
-      "analysed_at": "2026-07-26T03:29:33.814708+00:00",
+      "analysed_at": "2026-07-28T19:06:56.953181+00:00",
       "total_found": 0,
       "overall_risk": "none",
       "confidence": 0.0,
       "categories_checked": 6,
       "findings": [],
-      "notes": "Minimal test page — expect no findings",
-      "elapsed": 1.91
+      "notes": "Minimal test page — expect 0 findings",
+      "elapsed": 5.28
     }
   ]
 }
