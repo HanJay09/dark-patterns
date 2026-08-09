@@ -54,8 +54,7 @@ is the single biggest scope risk. Starting shortlist (refine after lit review):
 
 ## License
 
-TBD (academic project — check QMUL submission requirements before
-choosing a license if open-sourcing later).
+TBD (academic project).
 =======
 # dark-patterns
 >>>>>>> b9e24347103e9f0fe3a7ebe8be5a2e40b86fc1db
