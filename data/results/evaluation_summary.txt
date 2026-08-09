@@ -1,0 +1,86 @@
+EVALUATION REPORT — Automated Dark Pattern Detection Tool
+Generated: 2026-08-09 16:48:16
+============================================================
+
+OVERALL METRICS
+  URLs tested:  10
+  Precision:    0.571
+  Recall:       0.571
+  F1 score:     0.571
+  TP=4, FP=3, FN=3
+
+SPECIFICITY
+  Clean sites: 3, Correct: 3, FP: 0
+  Specificity: 1.000
+
+PER-CATEGORY RESULTS
+  Category                       P      R     F1   TP   FP   FN
+  ----------------------------------------------------------
+  Misdirection               0.000  0.000  0.000    0    0    0
+  Hidden Costs               0.000  0.000  0.000    0    0    0
+  Confirmshaming             0.000  0.000  0.000    0    0    0
+  Disguised Ads              0.800  0.667  0.727    4    1    2
+  Forced Continuity          0.000  0.000  0.000    0    0    0
+  Urgency / Scarcity         0.000  0.000  0.000    0    2    1
+
+PER-URL RESULTS
+
+  URL: https://www.mirror.co.uk
+  Notes: UK tabloid news — Taboola native ads confirmed present
+  Expected:  ['DP-4']
+  Predicted: ['DP-4']
+  TP=['DP-4'], FP=[], FN=[]
+
+  URL: https://www.booking.com
+  Notes: Travel booking — limited-time deal language confirmed
+  Expected:  ['DP-6']
+  Predicted: ['DP-4']
+  TP=[], FP=['DP-4'], FN=['DP-6']
+
+  URL: https://www.confused.com
+  Notes: Price comparison — DoubleClick ads confirmed
+  Expected:  ['DP-4']
+  Predicted: ['DP-4', 'DP-6']
+  TP=['DP-4'], FP=['DP-6'], FN=[]
+
+  URL: https://www.amazon.co.uk
+  Notes: E-commerce — Amazon ad network confirmed
+  Expected:  ['DP-4']
+  Predicted: ['DP-4']
+  TP=['DP-4'], FP=[], FN=[]
+
+  URL: https://www.trainline.com
+  Notes: Ticketing — DoubleClick ads confirmed
+  Expected:  ['DP-4']
+  Predicted: ['DP-4', np.str_('DP-6')]
+  TP=['DP-4'], FP=[np.str_('DP-6')], FN=[]
+
+  URL: https://www.bbc.co.uk
+  Notes: Public broadcaster — no dark patterns expected
+  Expected:  none
+  Predicted: none
+  TP=[], FP=[], FN=[]
+
+  URL: https://www.gov.uk
+  Notes: UK Government — no dark patterns expected
+  Expected:  none
+  Predicted: none
+  TP=[], FP=[], FN=[]
+
+  URL: https://example.com
+  Notes: Minimal test page — no dark patterns expected
+  Expected:  none
+  Predicted: none
+  TP=[], FP=[], FN=[]
+
+  URL: https://www.thesun.co.uk
+  Notes: Tabloid — ad networks expected
+  Expected:  ['DP-4']
+  Predicted: none
+  TP=[], FP=[], FN=['DP-4']
+
+  URL: https://www.dailymail.co.uk
+  Notes: News site — ad networks expected
+  Expected:  ['DP-4']
+  Predicted: none
+  TP=[], FP=[], FN=['DP-4']

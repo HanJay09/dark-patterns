@@ -1,0 +1,62 @@
+[
+  {
+    "url": "https://www.mirror.co.uk",
+    "notes": "UK tabloid news — Taboola native ads confirmed present",
+    "expected": ["DP-4"],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.booking.com",
+    "notes": "Travel booking — limited-time deal language confirmed",
+    "expected": ["DP-6"],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.confused.com",
+    "notes": "Price comparison — DoubleClick ads confirmed",
+    "expected": ["DP-4"],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.amazon.co.uk",
+    "notes": "E-commerce — Amazon ad network confirmed",
+    "expected": ["DP-4"],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.trainline.com",
+    "notes": "Ticketing — DoubleClick ads confirmed",
+    "expected": ["DP-4"],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.bbc.co.uk",
+    "notes": "Public broadcaster — no dark patterns expected",
+    "expected": [],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.gov.uk",
+    "notes": "UK Government — no dark patterns expected",
+    "expected": [],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://example.com",
+    "notes": "Minimal test page — no dark patterns expected",
+    "expected": [],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.thesun.co.uk",
+    "notes": "Tabloid — ad networks expected",
+    "expected": ["DP-4"],
+    "source": "manual inspection"
+  },
+  {
+    "url": "https://www.dailymail.co.uk",
+    "notes": "News site — ad networks expected",
+    "expected": ["DP-4"],
+    "source": "manual inspection"
+  }
+]

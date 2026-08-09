@@ -1,0 +1,350 @@
+{
+  "generated_at": "2026-08-09T15:48:16.744200+00:00",
+  "metrics": {
+    "total_urls": 10,
+    "successful": 10,
+    "errors": 0,
+    "overall": {
+      "tp": 4,
+      "fp": 3,
+      "fn": 3,
+      "precision": 0.571,
+      "recall": 0.571,
+      "f1": 0.571
+    },
+    "per_category": {
+      "DP-1": {
+        "name": "Misdirection",
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "DP-2": {
+        "name": "Hidden Costs",
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "DP-3": {
+        "name": "Confirmshaming",
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "DP-4": {
+        "name": "Disguised Ads",
+        "tp": 4,
+        "fp": 1,
+        "fn": 2,
+        "precision": 0.8,
+        "recall": 0.667,
+        "f1": 0.727
+      },
+      "DP-5": {
+        "name": "Forced Continuity",
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "DP-6": {
+        "name": "Urgency / Scarcity",
+        "tp": 0,
+        "fp": 2,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "negative_sites": {
+      "total": 3,
+      "true_negatives": 3,
+      "false_positives": 0,
+      "specificity": 1.0
+    }
+  },
+  "results": [
+    {
+      "url": "https://www.mirror.co.uk",
+      "notes": "UK tabloid news — Taboola native ads confirmed present",
+      "expected": [
+        "DP-4"
+      ],
+      "predicted": [
+        "DP-4"
+      ],
+      "tp": [
+        "DP-4"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": null,
+      "elapsed": 35.8,
+      "findings": [
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "high",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "Native ad network detected: Taboola native ads",
+              "location": "Page <script> / external resources"
+            },
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ]
+    },
+    {
+      "url": "https://www.booking.com",
+      "notes": "Travel booking — limited-time deal language confirmed",
+      "expected": [
+        "DP-6"
+      ],
+      "predicted": [
+        "DP-4"
+      ],
+      "tp": [],
+      "fp": [
+        "DP-4"
+      ],
+      "fn": [
+        "DP-6"
+      ],
+      "error": null,
+      "elapsed": 8.28,
+      "findings": [
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google AdSense",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ]
+    },
+    {
+      "url": "https://www.confused.com",
+      "notes": "Price comparison — DoubleClick ads confirmed",
+      "expected": [
+        "DP-4"
+      ],
+      "predicted": [
+        "DP-4",
+        "DP-6"
+      ],
+      "tp": [
+        "DP-4"
+      ],
+      "fp": [
+        "DP-6"
+      ],
+      "fn": [],
+      "error": null,
+      "elapsed": 8.05,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"Essential only\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ]
+    },
+    {
+      "url": "https://www.amazon.co.uk",
+      "notes": "E-commerce — Amazon ad network confirmed",
+      "expected": [
+        "DP-4"
+      ],
+      "predicted": [
+        "DP-4"
+      ],
+      "tp": [
+        "DP-4"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": null,
+      "elapsed": 9.09,
+      "findings": [
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Amazon Advertising",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ]
+    },
+    {
+      "url": "https://www.trainline.com",
+      "notes": "Ticketing — DoubleClick ads confirmed",
+      "expected": [
+        "DP-4"
+      ],
+      "predicted": [
+        "DP-4",
+        "DP-6"
+      ],
+      "tp": [
+        "DP-4"
+      ],
+      "fp": [
+        "DP-6"
+      ],
+      "fn": [],
+      "error": null,
+      "elapsed": 8.91,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "medium",
+          "count": 2,
+          "instances": [
+            {
+              "evidence": "\"Necessary only\"",
+              "location": "Page text / button (ML classifier)"
+            },
+            {
+              "evidence": "\"Interest checkbox label label checkbox label label checkbox label label Necessary only Confirm\"",
+              "location": "Page text / button (ML classifier)"
+            }
+          ],
+          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+        },
+        {
+          "id": "DP-4",
+          "category": "Disguised Ads",
+          "severity": "medium",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "Ad network script detected: Google DoubleClick ad script",
+              "location": "Page <script> / external resources"
+            }
+          ],
+          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+        }
+      ]
+    },
+    {
+      "url": "https://www.bbc.co.uk",
+      "notes": "Public broadcaster — no dark patterns expected",
+      "expected": [],
+      "predicted": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": null,
+      "elapsed": 6.08,
+      "findings": []
+    },
+    {
+      "url": "https://www.gov.uk",
+      "notes": "UK Government — no dark patterns expected",
+      "expected": [],
+      "predicted": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": null,
+      "elapsed": 5.36,
+      "findings": []
+    },
+    {
+      "url": "https://example.com",
+      "notes": "Minimal test page — no dark patterns expected",
+      "expected": [],
+      "predicted": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": null,
+      "elapsed": 5.11,
+      "findings": []
+    },
+    {
+      "url": "https://www.thesun.co.uk",
+      "notes": "Tabloid — ad networks expected",
+      "expected": [
+        "DP-4"
+      ],
+      "predicted": [],
+      "tp": [],
+      "fp": [],
+      "fn": [
+        "DP-4"
+      ],
+      "error": null,
+      "elapsed": 5.84,
+      "findings": []
+    },
+    {
+      "url": "https://www.dailymail.co.uk",
+      "notes": "News site — ad networks expected",
+      "expected": [
+        "DP-4"
+      ],
+      "predicted": [],
+      "tp": [],
+      "fp": [],
+      "fn": [
+        "DP-4"
+      ],
+      "error": null,
+      "elapsed": 5.14,
+      "findings": []
+    }
+  ]
+}
