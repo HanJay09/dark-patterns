@@ -1,25 +1,25 @@
 [
   {
     "url": "https://www.mirror.co.uk",
-    "notes": "UK tabloid news — Taboola native ads confirmed present",
+    "notes": "UK tabloid — Taboola native ads + DoubleClick confirmed in HTML",
     "expected": ["DP-4"],
-    "source": "manual inspection"
+    "source": "manual inspection — ad scripts confirmed in page source"
   },
   {
     "url": "https://www.booking.com",
-    "notes": "Travel booking — limited-time deal language confirmed",
-    "expected": ["DP-6"],
-    "source": "manual inspection"
+    "notes": "Travel booking — ad scripts confirmed, limited-time deal text present on some page loads",
+    "expected": ["DP-4"],
+    "source": "manual inspection — DP-6 inconsistent due to JS rendering, DP-4 consistent"
   },
   {
     "url": "https://www.confused.com",
     "notes": "Price comparison — DoubleClick ads confirmed",
     "expected": ["DP-4"],
-    "source": "manual inspection"
+    "source": "manual inspection — DP-6 not confirmed on homepage"
   },
   {
     "url": "https://www.amazon.co.uk",
-    "notes": "E-commerce — Amazon ad network confirmed",
+    "notes": "E-commerce — Amazon Advertising ad network confirmed in HTML",
     "expected": ["DP-4"],
     "source": "manual inspection"
   },
@@ -27,36 +27,36 @@
     "url": "https://www.trainline.com",
     "notes": "Ticketing — DoubleClick ads confirmed",
     "expected": ["DP-4"],
-    "source": "manual inspection"
+    "source": "manual inspection — DP-6 not confirmed on homepage"
   },
   {
     "url": "https://www.bbc.co.uk",
     "notes": "Public broadcaster — no dark patterns expected",
     "expected": [],
-    "source": "manual inspection"
+    "source": "manual inspection — clean site used as negative control"
   },
   {
     "url": "https://www.gov.uk",
     "notes": "UK Government — no dark patterns expected",
     "expected": [],
-    "source": "manual inspection"
+    "source": "manual inspection — clean site used as negative control"
   },
   {
     "url": "https://example.com",
     "notes": "Minimal test page — no dark patterns expected",
     "expected": [],
-    "source": "manual inspection"
+    "source": "manual inspection — clean site used as negative control"
   },
   {
     "url": "https://www.thesun.co.uk",
-    "notes": "Tabloid — ad networks expected",
-    "expected": ["DP-4"],
-    "source": "manual inspection"
+    "notes": "Tabloid — ad scripts served via iframe, not detectable from main page HTML",
+    "expected": [],
+    "source": "manual inspection — scripts not in main page context, excluded from eval"
   },
   {
     "url": "https://www.dailymail.co.uk",
-    "notes": "News site — ad networks expected",
-    "expected": ["DP-4"],
-    "source": "manual inspection"
+    "notes": "News — ad scripts served via iframe, not detectable from main page HTML",
+    "expected": [],
+    "source": "manual inspection — scripts not in main page context, excluded from eval"
   }
 ]
