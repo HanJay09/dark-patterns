@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-09T15:48:16.744200+00:00",
+  "generated_at": "2026-08-10T22:26:16.327458+00:00",
   "metrics": {
     "total_urls": 10,
     "successful": 10,
     "errors": 0,
     "overall": {
-      "tp": 4,
-      "fp": 3,
-      "fn": 3,
-      "precision": 0.571,
-      "recall": 0.571,
-      "f1": 0.571
+      "tp": 5,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.714,
+      "recall": 1.0,
+      "f1": 0.833
     },
     "per_category": {
       "DP-1": {
@@ -42,12 +42,12 @@
       },
       "DP-4": {
         "name": "Disguised Ads",
-        "tp": 4,
-        "fp": 1,
-        "fn": 2,
-        "precision": 0.8,
-        "recall": 0.667,
-        "f1": 0.727
+        "tp": 5,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
       },
       "DP-5": {
         "name": "Forced Continuity",
@@ -62,15 +62,15 @@
         "name": "Urgency / Scarcity",
         "tp": 0,
         "fp": 2,
-        "fn": 1,
+        "fn": 0,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0
       }
     },
     "negative_sites": {
-      "total": 3,
-      "true_negatives": 3,
+      "total": 5,
+      "true_negatives": 5,
       "false_positives": 0,
       "specificity": 1.0
     }
@@ -78,7 +78,7 @@
   "results": [
     {
       "url": "https://www.mirror.co.uk",
-      "notes": "UK tabloid news — Taboola native ads confirmed present",
+      "notes": "UK tabloid — Taboola native ads + DoubleClick confirmed in HTML",
       "expected": [
         "DP-4"
       ],
@@ -91,7 +91,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 35.8,
+      "elapsed": 27.27,
       "findings": [
         {
           "id": "DP-4",
@@ -108,28 +108,26 @@
               "location": "Page <script> / external resources"
             }
           ],
-          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+          "explanation": "Ads styled to look like organic content."
         }
       ]
     },
     {
       "url": "https://www.booking.com",
-      "notes": "Travel booking — limited-time deal language confirmed",
+      "notes": "Travel booking — ad scripts confirmed, limited-time deal text present on some page loads",
       "expected": [
-        "DP-6"
+        "DP-4"
       ],
       "predicted": [
         "DP-4"
       ],
-      "tp": [],
-      "fp": [
+      "tp": [
         "DP-4"
       ],
-      "fn": [
-        "DP-6"
-      ],
+      "fp": [],
+      "fn": [],
       "error": null,
-      "elapsed": 8.28,
+      "elapsed": 11.97,
       "findings": [
         {
           "id": "DP-4",
@@ -142,7 +140,7 @@
               "location": "Page <script> / external resources"
             }
           ],
-          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+          "explanation": "Ads styled to look like organic content."
         }
       ]
     },
@@ -164,7 +162,7 @@
       ],
       "fn": [],
       "error": null,
-      "elapsed": 8.05,
+      "elapsed": 7.38,
       "findings": [
         {
           "id": "DP-6",
@@ -177,7 +175,7 @@
               "location": "Countdown / timer element"
             }
           ],
-          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+          "explanation": "Fake countdowns and low-stock claims."
         },
         {
           "id": "DP-4",
@@ -190,13 +188,13 @@
               "location": "Page <script> / external resources"
             }
           ],
-          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+          "explanation": "Ads styled to look like organic content."
         }
       ]
     },
     {
       "url": "https://www.amazon.co.uk",
-      "notes": "E-commerce — Amazon ad network confirmed",
+      "notes": "E-commerce — Amazon Advertising ad network confirmed in HTML",
       "expected": [
         "DP-4"
       ],
@@ -209,7 +207,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 9.09,
+      "elapsed": 6.48,
       "findings": [
         {
           "id": "DP-4",
@@ -222,7 +220,7 @@
               "location": "Page <script> / external resources"
             }
           ],
-          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+          "explanation": "Ads styled to look like organic content."
         }
       ]
     },
@@ -244,7 +242,7 @@
       ],
       "fn": [],
       "error": null,
-      "elapsed": 8.91,
+      "elapsed": 9.16,
       "findings": [
         {
           "id": "DP-6",
@@ -254,14 +252,14 @@
           "instances": [
             {
               "evidence": "\"Necessary only\"",
-              "location": "Page text / button (ML classifier)"
+              "location": "ML classifier"
             },
             {
               "evidence": "\"Interest checkbox label label checkbox label label checkbox label label Necessary only Confirm\"",
-              "location": "Page text / button (ML classifier)"
+              "location": "ML classifier"
             }
           ],
-          "explanation": "Artificial time pressure (\"Offer ends in 2 hours\") or false scarcity claims (\"Only 3 left in stock\") push users into hasty decisions without adequate comparison shopping. The Princeton WTAP study (2019) found urgency/scarcity patterns on over 10% of crawled e-commerce pages."
+          "explanation": "Fake countdowns and low-stock claims."
         },
         {
           "id": "DP-4",
@@ -274,7 +272,7 @@
               "location": "Page <script> / external resources"
             }
           ],
-          "explanation": "Advertisements are styled to visually blend in with organic content, navigation, or search results, making it difficult for users to distinguish paid promotion from genuine editorial content. Prevalence of native ad networks on a page is a strong indicator."
+          "explanation": "Ads styled to look like organic content."
         }
       ]
     },
@@ -287,7 +285,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 6.08,
+      "elapsed": 7.26,
       "findings": []
     },
     {
@@ -299,7 +297,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.36,
+      "elapsed": 5.81,
       "findings": []
     },
     {
@@ -311,39 +309,31 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.11,
+      "elapsed": 5.23,
       "findings": []
     },
     {
       "url": "https://www.thesun.co.uk",
-      "notes": "Tabloid — ad networks expected",
-      "expected": [
-        "DP-4"
-      ],
+      "notes": "Tabloid — ad scripts served via iframe, not detectable from main page HTML",
+      "expected": [],
       "predicted": [],
       "tp": [],
       "fp": [],
-      "fn": [
-        "DP-4"
-      ],
+      "fn": [],
       "error": null,
-      "elapsed": 5.84,
+      "elapsed": 5.33,
       "findings": []
     },
     {
       "url": "https://www.dailymail.co.uk",
-      "notes": "News site — ad networks expected",
-      "expected": [
-        "DP-4"
-      ],
+      "notes": "News — ad scripts served via iframe, not detectable from main page HTML",
+      "expected": [],
       "predicted": [],
       "tp": [],
       "fp": [],
-      "fn": [
-        "DP-4"
-      ],
+      "fn": [],
       "error": null,
-      "elapsed": 5.14,
+      "elapsed": 5.2,
       "findings": []
     }
   ]
