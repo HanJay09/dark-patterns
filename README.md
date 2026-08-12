@@ -25,10 +25,10 @@ dark-pattern-detector/
 
 ## Current status
 
-- [ ] Phase 1: Literature review & taxonomy definition
-- [ ] Phase 2: Requirements & system design
-- [ ] Phase 3: Implementation (scraper, detection engine, frontend)
-- [ ] Phase 4: Evaluation (accuracy + usability testing)
+- [✓] Phase 1: Literature review & taxonomy definition
+- [✓] Phase 2: Requirements & system design
+- [✓] Phase 3: Implementation (scraper, detection engine, frontend)
+- [✓] Phase 4: Evaluation (accuracy + usability testing)
 - [ ] Phase 5: Write-up
 
 ## Setup
