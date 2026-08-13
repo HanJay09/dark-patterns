@@ -5,6 +5,14 @@ LABEL_TO_CATEGORY = {'DP-1':'Misdirection','DP-2':'Hidden Costs','DP-3':'Confirm
 MODEL_PATH = Path(__file__).parent.parent / 'data' / 'models' / 'classifier.pkl'
 CONFIDENCE_THRESHOLD = 0.55
 
+# Per-category confidence thresholds
+# DP-6 needs a higher threshold because generic "deals/save/today" language
+# in navigation and cookie banners frequently scores above the default threshold
+CATEGORY_THRESHOLDS = {
+    'DP-6': 0.80,   # raised — rule-based DP-6 is more reliable on live sites
+    'DP-1': 0.75,   # raised — "skip/close" language is common in nav elements
+}
+
 class DarkPatternClassifier:
     def __init__(self):
         self.pipeline = None; self._available = False; self._load()
@@ -26,9 +34,11 @@ class DarkPatternClassifier:
         results = []
         for text, prob_row in zip(texts, probs):
             idx = prob_row.argmax()
-            label = str(labels[idx])  # force plain str
+            label = str(labels[idx])
             confidence = float(prob_row[idx])
-            if label != 'NONE' and confidence >= CONFIDENCE_THRESHOLD:
+            # Use per-category threshold if defined, else global default
+            threshold = CATEGORY_THRESHOLDS.get(label, CONFIDENCE_THRESHOLD)
+            if label != 'NONE' and confidence >= threshold:
                 results.append({'text': str(text), 'label': label, 'category': LABEL_TO_CATEGORY.get(label, label), 'confidence': round(confidence, 3)})
         return results
 

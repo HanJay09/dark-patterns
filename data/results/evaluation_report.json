@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-10T22:26:16.327458+00:00",
+  "generated_at": "2026-08-13T16:08:30.219417+00:00",
   "metrics": {
     "total_urls": 10,
     "successful": 10,
@@ -70,9 +70,9 @@
     },
     "negative_sites": {
       "total": 5,
-      "true_negatives": 5,
-      "false_positives": 0,
-      "specificity": 1.0
+      "true_negatives": 4,
+      "false_positives": 1,
+      "specificity": 0.8
     }
   },
   "results": [
@@ -91,7 +91,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 27.27,
+      "elapsed": 51.0,
       "findings": [
         {
           "id": "DP-4",
@@ -127,7 +127,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 11.97,
+      "elapsed": 14.0,
       "findings": [
         {
           "id": "DP-4",
@@ -162,7 +162,7 @@
       ],
       "fn": [],
       "error": null,
-      "elapsed": 7.38,
+      "elapsed": 6.67,
       "findings": [
         {
           "id": "DP-6",
@@ -207,7 +207,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 6.48,
+      "elapsed": 10.45,
       "findings": [
         {
           "id": "DP-4",
@@ -231,36 +231,16 @@
         "DP-4"
       ],
       "predicted": [
-        "DP-4",
-        "DP-6"
+        "DP-4"
       ],
       "tp": [
         "DP-4"
       ],
-      "fp": [
-        "DP-6"
-      ],
+      "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 9.16,
+      "elapsed": 8.77,
       "findings": [
-        {
-          "id": "DP-6",
-          "category": "Urgency / Scarcity",
-          "severity": "medium",
-          "count": 2,
-          "instances": [
-            {
-              "evidence": "\"Necessary only\"",
-              "location": "ML classifier"
-            },
-            {
-              "evidence": "\"Interest checkbox label label checkbox label label checkbox label label Necessary only Confirm\"",
-              "location": "ML classifier"
-            }
-          ],
-          "explanation": "Fake countdowns and low-stock claims."
-        },
         {
           "id": "DP-4",
           "category": "Disguised Ads",
@@ -280,13 +260,31 @@
       "url": "https://www.bbc.co.uk",
       "notes": "Public broadcaster — no dark patterns expected",
       "expected": [],
-      "predicted": [],
+      "predicted": [
+        "DP-6"
+      ],
       "tp": [],
-      "fp": [],
+      "fp": [
+        "DP-6"
+      ],
       "fn": [],
       "error": null,
-      "elapsed": 7.26,
-      "findings": []
+      "elapsed": 8.8,
+      "findings": [
+        {
+          "id": "DP-6",
+          "category": "Urgency / Scarcity",
+          "severity": "high",
+          "count": 1,
+          "instances": [
+            {
+              "evidence": "\"1:14'For nine years I was the only woman boatbuilder' 00:01:14, play video'For nine years I was the only woman boatbuild…\"",
+              "location": "Countdown / timer element"
+            }
+          ],
+          "explanation": "Fake countdowns and low-stock claims."
+        }
+      ]
     },
     {
       "url": "https://www.gov.uk",
@@ -297,7 +295,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.81,
+      "elapsed": 6.11,
       "findings": []
     },
     {
@@ -309,7 +307,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.23,
+      "elapsed": 5.78,
       "findings": []
     },
     {
@@ -321,7 +319,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.33,
+      "elapsed": 6.16,
       "findings": []
     },
     {
@@ -333,7 +331,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.2,
+      "elapsed": 5.67,
       "findings": []
     }
   ]

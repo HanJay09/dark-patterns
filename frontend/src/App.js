@@ -12,7 +12,7 @@ import LoadingPage from './pages/LoadingPage';
 import ReportPage from './pages/ReportPage';
 import { analyseUrl, mockAnalyse } from './utils/api';
 
-const USE_MOCK = true; // ← flip to false once backend is running
+const USE_MOCK = false; // ← flip to false once backend is running
 
 export default function App() {
   const [view, setView]     = useState('home');   // 'home' | 'loading' | 'report'

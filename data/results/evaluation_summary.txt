@@ -1,5 +1,5 @@
 EVALUATION REPORT — Automated Dark Pattern Detection Tool
-Generated: 2026-08-10 23:26:16
+Generated: 2026-08-13 17:08:30
 ============================================================
 
 OVERALL METRICS
@@ -10,8 +10,8 @@ OVERALL METRICS
   TP=5, FP=2, FN=0
 
 SPECIFICITY
-  Clean sites: 5, Correct: 5, FP: 0
-  Specificity: 1.000
+  Clean sites: 5, Correct: 4, FP: 1
+  Specificity: 0.800
 
 PER-CATEGORY RESULTS
   Category                       P      R     F1   TP   FP   FN
@@ -52,14 +52,14 @@ PER-URL RESULTS
   URL: https://www.trainline.com
   Notes: Ticketing — DoubleClick ads confirmed
   Expected:  ['DP-4']
-  Predicted: ['DP-4', 'DP-6']
-  TP=['DP-4'], FP=['DP-6'], FN=[]
+  Predicted: ['DP-4']
+  TP=['DP-4'], FP=[], FN=[]
 
   URL: https://www.bbc.co.uk
   Notes: Public broadcaster — no dark patterns expected
   Expected:  none
-  Predicted: none
-  TP=[], FP=[], FN=[]
+  Predicted: ['DP-6']
+  TP=[], FP=['DP-6'], FN=[]
 
   URL: https://www.gov.uk
   Notes: UK Government — no dark patterns expected
