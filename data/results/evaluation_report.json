@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T16:08:30.219417+00:00",
+  "generated_at": "2026-08-14T02:06:50.254231+00:00",
   "metrics": {
     "total_urls": 10,
     "successful": 10,
@@ -91,7 +91,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 51.0,
+      "elapsed": 45.77,
       "findings": [
         {
           "id": "DP-4",
@@ -127,7 +127,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 14.0,
+      "elapsed": 13.39,
       "findings": [
         {
           "id": "DP-4",
@@ -162,7 +162,7 @@
       ],
       "fn": [],
       "error": null,
-      "elapsed": 6.67,
+      "elapsed": 6.77,
       "findings": [
         {
           "id": "DP-6",
@@ -207,7 +207,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 10.45,
+      "elapsed": 36.25,
       "findings": [
         {
           "id": "DP-4",
@@ -239,7 +239,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 8.77,
+      "elapsed": 8.03,
       "findings": [
         {
           "id": "DP-4",
@@ -269,7 +269,7 @@
       ],
       "fn": [],
       "error": null,
-      "elapsed": 8.8,
+      "elapsed": 5.83,
       "findings": [
         {
           "id": "DP-6",
@@ -295,7 +295,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 6.11,
+      "elapsed": 5.39,
       "findings": []
     },
     {
@@ -307,7 +307,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.78,
+      "elapsed": 5.88,
       "findings": []
     },
     {
@@ -319,7 +319,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 6.16,
+      "elapsed": 6.11,
       "findings": []
     },
     {
@@ -331,7 +331,7 @@
       "fp": [],
       "fn": [],
       "error": null,
-      "elapsed": 5.67,
+      "elapsed": 5.08,
       "findings": []
     }
   ]

@@ -474,19 +474,21 @@ def detect_urgency_scarcity(page) -> list[RuleHit]:
                 continue
 
             # Skip if match appears inside a news headline (no price/product context)
-            # Heuristic: genuine urgency patterns appear near prices or product names
-            # Editorial urgency (e.g. "bride left stranded") has no £/$/ or stock words
+            # Require stronger commercial signals — generic words like 'deal/save/offer'
+            # are too common on news and comparison sites to be reliable indicators
             surrounding = clean_text[max(0, m.start()-100):m.end()+100].lower()
-            has_commercial_context = any(
+            has_strong_commercial = any(
                 indicator in surrounding
-                for indicator in ['£', '$', '€', 'stock', 'order', 'buy', 'cart',
-                                  'basket', 'checkout', 'price', 'deal', 'offer',
-                                  'discount', 'sale', 'save', 'off']
+                for indicator in ['£', '$', '€', 'left in stock', 'in stock',
+                                  'add to basket', 'add to cart', 'checkout',
+                                  'per night', 'per room', 'per ticket',
+                                  'rooms left', 'seats left', 'tickets left',
+                                  'buy now', 'order now', 'book now']
             )
-            # Only apply commercial context check to patterns that could appear
-            # in editorial text (not numeric patterns which are inherently specific)
+            # Only apply commercial context check to non-numeric patterns
+            # Numeric patterns (e.g. "only 3 left") are specific enough on their own
             is_numeric_pattern = bool(re.search(r'\d', pattern))
-            if not is_numeric_pattern and not has_commercial_context:
+            if not is_numeric_pattern and not has_strong_commercial:
                 continue
 
             hits.append(RuleHit(

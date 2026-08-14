@@ -1,5 +1,5 @@
 EVALUATION REPORT — Automated Dark Pattern Detection Tool
-Generated: 2026-08-13 17:08:30
+Generated: 2026-08-14 03:06:50
 ============================================================
 
 OVERALL METRICS
