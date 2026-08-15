@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
+import traceback
 
 # ── Windows event loop fix ────────────────────────────────────────────────────
 # Playwright's subprocess launch requires ProactorEventLoop on Windows.
@@ -94,8 +95,11 @@ async def analyse_url(request: AnalyseRequest):
     # Scrape
     try:
         page = await scrape(url, timeout_ms=30000)
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Scraping failed: {str(e)}")
+    except Exception:
+        raise HTTPException(
+            status_code=502,
+            detail="Scraping failed"
+        )
 
     if page.error:
         raise HTTPException(

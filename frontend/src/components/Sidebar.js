@@ -1,5 +1,7 @@
 // src/components/Sidebar.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+const STORAGE_KEY = 'darkdetect_history';
 
 const CATEGORIES = [
   { id: 'DP-1', label: 'Misdirection' },
@@ -34,17 +36,13 @@ const styles = {
     marginBottom: 4,
   },
   logoIcon: {
-    width: 28,
-    height: 28,
+    width: 28, height: 28,
     background: 'var(--accent)',
     borderRadius: 6,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
   logoText: {
-    fontSize: 15,
-    fontWeight: 600,
+    fontSize: 15, fontWeight: 600,
     color: 'var(--white)',
     letterSpacing: '-0.02em',
   },
@@ -58,8 +56,7 @@ const styles = {
     flex: 1,
   },
   navLabel: {
-    fontSize: 10,
-    fontWeight: 600,
+    fontSize: 10, fontWeight: 600,
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     color: 'var(--navy-400)',
@@ -81,17 +78,27 @@ const styles = {
     textAlign: 'left',
     transition: 'background .12s, color .12s',
     marginBottom: 2,
+    justifyContent: 'space-between',
   }),
+  navItemLeft: {
+    display: 'flex', alignItems: 'center', gap: 10,
+  },
+  badge: {
+    fontSize: 10, fontWeight: 600,
+    background: 'var(--navy-600)',
+    color: 'var(--navy-100)',
+    borderRadius: 20,
+    padding: '1px 6px',
+    minWidth: 18,
+    textAlign: 'center',
+  },
   dot: (color) => ({
-    width: 7,
-    height: 7,
+    width: 7, height: 7,
     borderRadius: '50%',
     background: color,
     flexShrink: 0,
   }),
-  catSection: {
-    marginTop: 24,
-  },
+  catSection: { marginTop: 24 },
   footer: {
     padding: '16px 20px',
     borderTop: '1px solid var(--navy-800)',
@@ -104,6 +111,18 @@ const styles = {
 };
 
 export default function Sidebar({ page, setPage, result }) {
+  const [historyCount, setHistoryCount] = useState(0);
+
+  // Update badge count whenever sidebar renders
+  useEffect(() => {
+    try {
+      const h = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      setHistoryCount(h.length);
+    } catch {
+      setHistoryCount(0);
+    }
+  }, [page]); // re-read when navigation changes
+
   const foundIds = result ? result.findings.map(f => f.id) : [];
 
   return (
@@ -127,22 +146,33 @@ export default function Sidebar({ page, setPage, result }) {
       {/* Navigation */}
       <nav style={styles.nav}>
         <div style={styles.navLabel}>Tool</div>
+
+        {/* Analyse */}
         <button style={styles.navItem(page === 'home')} onClick={() => setPage('home')}>
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M7.5 1.5L13.5 6V13H9.5V9.5H5.5V13H1.5V6L7.5 1.5Z"
-              stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-          </svg>
-          Analyse a URL
-        </button>
-        <button style={styles.navItem(page === 'history')} onClick={() => setPage('history')}>
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="6" stroke="currentColor" strokeWidth="1.3" />
-            <path d="M7.5 4.5V7.5L9.5 9.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-          </svg>
-          History
+          <div style={styles.navItemLeft}>
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M7.5 1.5L13.5 6V13H9.5V9.5H5.5V13H1.5V6L7.5 1.5Z"
+                stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+            </svg>
+            Analyse a URL
+          </div>
         </button>
 
-        {/* Dark pattern categories */}
+        {/* History */}
+        <button style={styles.navItem(page === 'history')} onClick={() => setPage('history')}>
+          <div style={styles.navItemLeft}>
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <circle cx="7.5" cy="7.5" r="6" stroke="currentColor" strokeWidth="1.3" />
+              <path d="M7.5 4.5V7.5L9.5 9.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+            </svg>
+            History
+          </div>
+          {historyCount > 0 && (
+            <span style={styles.badge}>{historyCount}</span>
+          )}
+        </button>
+
+        {/* Category status dots */}
         <div style={styles.catSection}>
           <div style={styles.navLabel}>Categories</div>
           {CATEGORIES.map(cat => {
@@ -167,8 +197,8 @@ export default function Sidebar({ page, setPage, result }) {
       <div style={styles.footer}>
         <div style={styles.footerText}>
           Han Jay Tan<br />
-          Supervisor: Jinhua Liang<br />
-          <span style={{ color: 'var(--navy-600)' }}>v0.1.0 · prototype</span>
+         <br />
+          <span style={{ color: 'var(--navy-600)' }}>v0.2.0 · prototype</span>
         </div>
       </div>
     </aside>
