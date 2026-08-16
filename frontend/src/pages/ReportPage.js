@@ -84,15 +84,13 @@ function InstanceCard({ inst, borderColor }) {
             <span style={{ fontSize: 11, color: 'var(--grey-400)' }}>
               {RULE_LABELS[inst.rule] || inst.rule}
             </span>
-            {inst.evidence_explanation && (
-              <button onClick={() => setShowExplain(e => !e)} style={{
+            <button onClick={() => setShowExplain(e => !e)} style={{
                 fontSize: 10, padding: '1px 7px', borderRadius: 20, cursor: 'pointer',
                 border: '1px solid var(--accent-border)', background: showExplain ? 'var(--accent-light)' : 'transparent',
                 color: 'var(--accent)', marginLeft: 4,
               }}>
                 {showExplain ? 'Hide' : 'What does this mean?'}
               </button>
-            )}
           </div>
         )}
 
@@ -108,7 +106,7 @@ function InstanceCard({ inst, borderColor }) {
       </div>
 
       {/* Evidence explanation — shown when toggled */}
-      {showExplain && inst.evidence_explanation && (
+      {showExplain && (
         <div style={{
           marginTop: 10, padding: '10px 12px',
           background: 'var(--accent-light)', border: '1px solid var(--accent-border)',
@@ -118,7 +116,7 @@ function InstanceCard({ inst, borderColor }) {
           <strong style={{ color: 'var(--accent)', display: 'block', marginBottom: 4, fontSize: 11 }}>
             What this means:
           </strong>
-          {inst.evidence_explanation}
+          {inst.evidence_explanation || 'This pattern was detected based on the content and structure of the page. See the \'Why this matters\' section below for more context on this dark pattern category.'}
         </div>
       )}
     </div>
