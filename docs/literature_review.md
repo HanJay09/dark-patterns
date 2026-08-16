@@ -1,9 +1,10 @@
 # Literature Review
 
 Target: finalised taxonomy + lit review by end of Phase 1 
-Current findings - Hard coded (modify at src/utils/api.js) s
+Current findings - Hard coded (modify at src/utils/api.js) 
 
-npm start - to start 
+Backend: uvicorn api.main:app --port 8000
+Frontend: npm start 
 
 9th July - deadline draft dissertation
 ## Core sources to read first
