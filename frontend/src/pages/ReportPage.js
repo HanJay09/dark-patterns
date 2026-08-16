@@ -44,6 +44,8 @@ function ConfidenceBar({ value }) {
 }
 
 function InstanceCard({ inst, borderColor }) {
+  const [showExplain, setShowExplain] = useState(false);
+
   return (
     <div style={{
       background: 'var(--grey-50)', border: '1px solid var(--grey-100)',
@@ -72,7 +74,7 @@ function InstanceCard({ inst, borderColor }) {
           <span style={{ fontSize: 11, color: 'var(--grey-400)' }}>{inst.location}</span>
         </div>
 
-        {/* Rule that fired */}
+        {/* Rule that fired + explain toggle */}
         {inst.rule && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
@@ -82,6 +84,15 @@ function InstanceCard({ inst, borderColor }) {
             <span style={{ fontSize: 11, color: 'var(--grey-400)' }}>
               {RULE_LABELS[inst.rule] || inst.rule}
             </span>
+            {inst.evidence_explanation && (
+              <button onClick={() => setShowExplain(e => !e)} style={{
+                fontSize: 10, padding: '1px 7px', borderRadius: 20, cursor: 'pointer',
+                border: '1px solid var(--accent-border)', background: showExplain ? 'var(--accent-light)' : 'transparent',
+                color: 'var(--accent)', marginLeft: 4,
+              }}>
+                {showExplain ? 'Hide' : 'What does this mean?'}
+              </button>
+            )}
           </div>
         )}
 
@@ -95,6 +106,21 @@ function InstanceCard({ inst, borderColor }) {
           </div>
         )}
       </div>
+
+      {/* Evidence explanation — shown when toggled */}
+      {showExplain && inst.evidence_explanation && (
+        <div style={{
+          marginTop: 10, padding: '10px 12px',
+          background: 'var(--accent-light)', border: '1px solid var(--accent-border)',
+          borderRadius: 'var(--radius-sm)', fontSize: 12,
+          color: 'var(--navy-900)', lineHeight: 1.7,
+        }}>
+          <strong style={{ color: 'var(--accent)', display: 'block', marginBottom: 4, fontSize: 11 }}>
+            What this means:
+          </strong>
+          {inst.evidence_explanation}
+        </div>
+      )}
     </div>
   );
 }
