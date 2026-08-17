@@ -44,7 +44,7 @@ export default function HomePage({ onSubmit, loading }) {
           fontSize: 11, fontWeight: 500, padding: '4px 10px', marginBottom: 16,
         }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }} />
-          MSc Research Prototype
+          Dark Pattern Detector Prototype
         </div>
         <h1 style={{
           fontSize: 32, fontWeight: 600, letterSpacing: '-0.03em',

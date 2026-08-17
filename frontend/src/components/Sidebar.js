@@ -16,7 +16,7 @@ const styles = {
   sidebar: {
     width: 'var(--sidebar-w)',
     minHeight: '100vh',
-    background: 'var(--navy-900)',
+    background: '#000010',
     display: 'flex',
     flexDirection: 'column',
     flexShrink: 0,
@@ -27,7 +27,7 @@ const styles = {
   },
   logo: {
     padding: '24px 20px 20px',
-    borderBottom: '1px solid var(--navy-700)',
+    borderBottom: '1px solid #222',
   },
   logoMark: {
     display: 'flex',
@@ -48,7 +48,7 @@ const styles = {
   },
   logoSub: {
     fontSize: 11,
-    color: 'var(--navy-200)',
+    color: '#999',
     paddingLeft: 36,
   },
   nav: {
@@ -140,7 +140,7 @@ export default function Sidebar({ page, setPage, result }) {
           </div>
           <span style={styles.logoText}>DarkDetect</span>
         </div>
-        <div style={styles.logoSub}>MSc Project · QMUL 2025–26</div>
+        <div style={styles.logoSub}>An automated Dark Pattern detection tool</div>
       </div>
 
       {/* Navigation */}
@@ -197,6 +197,7 @@ export default function Sidebar({ page, setPage, result }) {
       <div style={styles.footer}>
         <div style={styles.footerText}>
           Han Jay Tan<br />
+          GitHub: github.com/HanJay09
          <br />
           <span style={{ color: 'var(--navy-600)' }}>v0.2.0 · prototype</span>
         </div>
