@@ -2,7 +2,8 @@
 // All communication with the FastAPI backend lives here.
 // Base URL reads from the env var; falls back to localhost for dev.
 
-const BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// const BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const BASE = process.env.REACT_APP_API_URL || 'https://dark-pattern-detector-api-7q83.onrender.com';
 
 /**
  * POST /analyse
