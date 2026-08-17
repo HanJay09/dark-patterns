@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dark-pattern-detector-api
+    runtime: docker
+    dockerfilePath: ./dark-pattern-detector/Dockerfile
+    dockerContext: ./dark-pattern-detector
+    plan: free
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
