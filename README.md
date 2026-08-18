@@ -6,7 +6,7 @@
 
 Enter a website URL and DarkDetect crawls the page, analyses its content and structure using a combination of **rule-based heuristics and machine-learning classification**, and produces an accessible report explaining which dark patterns were detected and why they matter.
 
-**Live application:** dark-patterns-detector.vercel.app
+**Live application:** (https://dark-patterns-detector.vercel.app/) 
 
 ---
 
