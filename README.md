@@ -6,7 +6,7 @@
 
 Enter a website URL and DarkDetect crawls the page, analyses its content and structure using a combination of **rule-based heuristics and machine-learning classification**, and produces an accessible report explaining which dark patterns were detected and why they matter.
 
-**Live application:** [dark-patterns-detector.vercel.app](https://dark-patterns-detector.vercel.app/?utm_source=chatgpt.com)
+**Live application:** [dark-patterns-detector.vercel.app]
 
 ---
 
@@ -325,7 +325,6 @@ DarkDetect is a completed MSc project prototype demonstrating an end-to-end appr
 * [x] React frontend
 * [x] Analysis report interface
 * [x] Local analysis history
-* [x] Evaluation tooling
 * [x] Deployment configuration
 
 The system should be considered a **research and evaluation prototype**, rather than a definitive authority on whether a website is intentionally deceptive.
