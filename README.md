@@ -352,8 +352,6 @@ These limitations are particularly important when evaluating real-world websites
 
 ## Research Context
 
-DarkDetect was developed as an MSc project at **Queen Mary University of London** during the 2025–26 academic year.
-
 The project investigates how automated web analysis, heuristic detection, and machine-learning techniques can be combined to identify potentially deceptive interface patterns.
 
 The system is intended to support research and experimentation around transparent and user-centred web design.
@@ -381,8 +379,7 @@ See [`LICENSE`](LICENSE) for the full license text.
 ## Author
 
 **Han Jay Tan**
-
-MSc Project — Queen Mary University of London
+Queen Mary University of London
 2025–26
 
 ---
@@ -397,5 +394,5 @@ Special thanks to the academic supervision and research support provided through
 
 ## Links
 
-* **Live application:** [DarkDetect](https://dark-patterns-detector.vercel.app/?utm_source=chatgpt.com)
-* **Repository:** [GitHub — HanJay09/dark-patterns](https://github.com/HanJay09/dark-patterns?utm_source=chatgpt.com)
+* **Live application:** [DarkDetect](https://dark-patterns-detector.vercel.app)
+* **Repository:** [GitHub — HanJay09/dark-patterns](https://github.com/HanJay09/dark-patterns)
