@@ -262,10 +262,6 @@ A typical analysis follows this process:
 8. Results are displayed in the DarkDetect report
 ```
 
-The system is designed to provide **explanations rather than simply returning a classification label**, making the results easier to interpret and evaluate.
-
-The system should be considered a **research and evaluation prototype**, rather than a definitive authority on whether a website is intentionally deceptive.
-
 ---
 
 ## Limitations
@@ -302,6 +298,10 @@ DarkDetect is intended for **research, education, usability evaluation, and resp
 Detection results should not be treated as definitive evidence that a website or organisation is deliberately manipulating users.
 
 When using the system against third-party websites, users should respect applicable terms of service, access restrictions, copyright, privacy requirements, and relevant laws.
+
+The system is designed to provide **explanations rather than simply returning a classification label**, making the results easier to interpret and evaluate.
+
+The system should be considered a **research and evaluation prototype**, rather than a definitive authority on whether a website is intentionally deceptive.
 
 ---
 
