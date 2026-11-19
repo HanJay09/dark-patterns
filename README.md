@@ -121,50 +121,6 @@ DarkDetect currently focuses on six categories:
 
 ---
 
-## Architecture
-
-The project is organised into separate components for scraping, detection, presentation, evaluation, and supporting data.
-
-```text
-dark-patterns/
-│
-├── api/
-│   └── main.py                 # FastAPI application
-│
-├── detection_engine/
-│   └── ...                     # Rules, ML classification & analysis
-│
-├── scraper/
-│   └── ...                     # Webpage retrieval & content extraction
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   └── package.json            # React frontend
-│
-├── data/
-│   ├── models/                 # Trained ML models
-│   ├── labelled/               # Labelled training/evaluation data
-│   └── raw/                    # Raw webpage data
-│
-├── evaluation/
-│   └── ...                     # Model/system evaluation
-│
-├── docs/
-│   └── ...                     # Supporting project documentation
-│
-├── tests/
-│   └── ...                     # Automated tests
-│
-├── requirements.txt
-├── Dockerfile
-├── render.yaml
-├── pytest.ini
-└── README.md
-```
-
----
-
 ## Technology Stack
 
 ### Backend
@@ -307,25 +263,6 @@ A typical analysis follows this process:
 ```
 
 The system is designed to provide **explanations rather than simply returning a classification label**, making the results easier to interpret and evaluate.
-
----
-
-## Project Status
-
-DarkDetect is a completed MSc project prototype demonstrating an end-to-end approach to automated dark-pattern detection.
-
-### Current capabilities
-
-* [x] Webpage crawling and content extraction
-* [x] Rule-based dark-pattern detection
-* [x] Machine-learning text classification
-* [x] Six dark-pattern categories
-* [x] Evidence-based findings
-* [x] FastAPI backend
-* [x] React frontend
-* [x] Analysis report interface
-* [x] Local analysis history
-* [x] Deployment configuration
 
 The system should be considered a **research and evaluation prototype**, rather than a definitive authority on whether a website is intentionally deceptive.
 
