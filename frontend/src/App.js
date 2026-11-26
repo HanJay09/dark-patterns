@@ -1,5 +1,6 @@
 // src/App.js
 import React, { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import LoadingPage from './pages/LoadingPage';
@@ -76,6 +77,8 @@ export default function App() {
         {view === 'report'  && <ReportPage result={result} onReset={handleReset} />}
         {view === 'history' && <HistoryPage onReanalyse={handleReanalyse} />}
       </div>
+      
+      <Analytics />
     </div>
   );
 }
